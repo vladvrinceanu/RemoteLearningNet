@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Linq;
 
-namespace iQuest.VendingMachine
+namespace iQuest.VendingMachine.DataLayer
 {
     internal class ProductRepository
     {

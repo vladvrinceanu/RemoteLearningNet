@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace iQuest.VendingMachine
+namespace iQuest.VendingMachine.DataLayer
 {
     internal class Product
     {
