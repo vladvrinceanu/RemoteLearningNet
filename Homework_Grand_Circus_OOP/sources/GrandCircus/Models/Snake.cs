@@ -4,12 +4,11 @@ using System.Text;
 
 namespace iQuest.GrandCircus.Models
 {
-    internal class Snake : AnimalBase 
+    internal class Snake : AnimalBase
     {
-        public Snake(string SpeciesName, string Name)
+        public static new readonly string SpeciesName = "Snake";
+        public Snake(string name) : base(name, SpeciesName)
         {
-            this.SpeciesName = SpeciesName;
-            this.Name = Name;
         }
         public override string MakeSound()
         {

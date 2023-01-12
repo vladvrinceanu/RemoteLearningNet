@@ -6,8 +6,8 @@ namespace iQuest.GrandCircus.Interfaces
 {
     internal interface IAnimal
     {
-        string SpeciesName { get; set; }
-        string Name { get; set; }   
+        string SpeciesName { get; }
+        string Name { get; }   
         string MakeSound();
     }
 }

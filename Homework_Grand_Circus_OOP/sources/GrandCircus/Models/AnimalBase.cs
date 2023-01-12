@@ -5,13 +5,16 @@ using iQuest.GrandCircus.Interfaces;
 
 namespace iQuest.GrandCircus.Models
 {
-    internal class AnimalBase : IAnimal
+    internal abstract class AnimalBase : IAnimal
     {
-        public string SpeciesName { get; set; }
-        public string Name { get; set; }
-        public virtual string MakeSound()
+        public string Name { get; }
+        public string SpeciesName { get; }
+
+        public AnimalBase(string name, string speciesName)
         {
-            return "Animal sound!";
+            Name = name;
+            SpeciesName = speciesName;
         }
+        public abstract string MakeSound();
     }
 }

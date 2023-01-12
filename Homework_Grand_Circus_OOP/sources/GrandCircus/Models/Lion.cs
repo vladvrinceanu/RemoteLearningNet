@@ -6,10 +6,9 @@ namespace iQuest.GrandCircus.Models
 {
     internal class Lion : AnimalBase
     {
-        public Lion(string SpeciesName, string Name)
+        public static new readonly string SpeciesName = "Lion";
+        public Lion(string name) : base(name, SpeciesName)
         {
-            this.SpeciesName = SpeciesName;
-            this.Name = Name;
         }
         public override string MakeSound()
         {
