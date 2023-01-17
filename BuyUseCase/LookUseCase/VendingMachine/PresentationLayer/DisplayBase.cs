@@ -19,5 +19,12 @@ namespace iQuest.VendingMachine.PresentationLayer
             Console.Write(message);
             Console.ForegroundColor = oldColor;
         }
+        protected void AskFromConsole(string message, ConsoleColor color)
+        {
+            ConsoleColor oldcolor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.Write(message);
+            Console.ForegroundColor = oldcolor;
+        }
     }
 }

@@ -4,34 +4,33 @@ using System.Text;
 using iQuest.VendingMachine.Exceptions;
 namespace iQuest.VendingMachine.PresentationLayer
 {
-    internal class BuyView
+    internal class BuyView : DisplayBase
     {
         public int RequestProduct()
         {
-
-            ConsoleColor oldcolor = Console.ForegroundColor;
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("Type the product ID: ");
-
-            Console.ForegroundColor = oldcolor;
-
-            bool success =  int.TryParse(Console.ReadLine(),out int number);
-
-            if (success)
+            AskFromConsole("Type the product ID: ", ConsoleColor.Cyan);
+            string typedId = Console.ReadLine();
+            if (!string.IsNullOrEmpty(typedId) && !string.IsNullOrEmpty(typedId))
             {
-                return number;
-            }
+                bool success = int.TryParse(typedId, out int number);
+                if (success)
+                {
+                    return number;
+                }
+                else
+                {
+                    throw new InvalidColumnException("Column must be an integer.");
+                }
+            }   
             else
             {
-               return 0;
+                throw new CancelException("Cancel.");
             }
-            // TryParse citeste Cancel Exception string.isnullorwhitespace
         }
         public void DispenseProduct(string productName)
         {
             Console.WriteLine();
-            Console.Write($"{"You bought: "} {productName}");
+            DisplayLine($"{"You bought: "} {productName}",ConsoleColor.Green);
         }
     }
 }

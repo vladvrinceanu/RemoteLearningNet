@@ -27,28 +27,33 @@ namespace iQuest.VendingMachine.UseCases
         }
         public void Execute()
         {
-            int id = 0;
-            int v = buyView.RequestProduct();
+            int columnId = buyView.RequestProduct();
+            bool found = false;
 
-            if (v>=1 && v<=3)
+            foreach (var element in productRepository.GetAll())
             {
-                id = v;
+                if (element.ColumnId == columnId)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+            {
+                var product = productRepository.GetByColumn(columnId);
+                if (product.Quantity > 0)
+                {
+                    product.Quantity--;
+                    buyView.DispenseProduct(product.Name);
+                }
+                else
+                {
+                    throw new InsuficientStockException("Insuficient stock.");
+                }
             }
             else
             {
-                throw new InvalidColumnException("Invalid column id.");
-            }
-
-            var product = productRepository.GetByColumn(id);
-
-            if (product.Quantit > 0)
-            {
-                product.Quantit--;
-                buyView.DispenseProduct(product.Name);
-            }
-            else
-            {
-                throw new InsuficientStockException("Insuficient stock.");
+                throw new InvalidColumnException("Column not found.");
             }
         }
     }

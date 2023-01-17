@@ -8,7 +8,14 @@ namespace iQuest.VendingMachine.Exceptions
     internal class CancelException : Exception
     {
         public CancelException(string message)
-            : base(message)
+           : base(message)
         { }
+        public override string StackTrace
+        {
+            get 
+            { 
+                return ""; 
+            }
+        }
     }
 }

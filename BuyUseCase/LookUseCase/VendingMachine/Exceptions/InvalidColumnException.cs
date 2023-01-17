@@ -11,5 +11,12 @@ namespace iQuest.VendingMachine.Exceptions
         public InvalidColumnException(string message)
             : base(message)
         { }
+        public override string StackTrace
+        {
+            get 
+            { 
+                return ""; 
+            }
+        }
     }
 }

@@ -10,5 +10,12 @@ namespace iQuest.VendingMachine.Exceptions
         public InsuficientStockException(string message)
             : base(message)
         { }
+        public override string StackTrace
+        {
+            get
+            {
+                return "";
+            }
+        }
     }
 }
