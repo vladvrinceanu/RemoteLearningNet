@@ -5,13 +5,13 @@ using iQuest.VendingMachine.DataLayer;
 
 namespace iQuest.VendingMachine.PresentationLayer
 {
-    internal class ShelfView
+    internal class ShelfView : DisplayBase
     {
         public void DisplayProducts(IEnumerable<Product> products)
         {
             foreach (Product product in products)
             {
-                Console.WriteLine($"{product.ColumnId} {product.Name} {product.Price} {product.Quantit}");
+               DisplayLine($"{product.ColumnId} {product.Name} {product.Price} {product.Quantity}",ConsoleColor.Green);
             }
         }
     }

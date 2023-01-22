@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using iQuest.VendingMachine.PresentationLayer;
+using iQuest.VendingMachine.Exceptions;
 
 namespace iQuest.VendingMachine
 {
@@ -26,11 +27,32 @@ namespace iQuest.VendingMachine
 
             while (!turnOffWasRequested)
             {
+               
                 IEnumerable<IUseCase> availableUseCases = useCases
                     .Where(x => x.CanExecute);
 
                 IUseCase useCase = mainDisplay.ChooseCommand(availableUseCases);
-                useCase.Execute();
+
+                try
+                {
+                    useCase.Execute();
+                }
+                catch (InvalidColumnException e)
+                {
+                   mainDisplay.DisplayErrors(e);
+                }
+                catch (InsuficientStockException e)
+                {
+                    mainDisplay.DisplayErrors(e);
+                }
+                catch (CancelException e)
+                {
+                    mainDisplay.DisplayErrors(e);
+                }
+                catch (Exception e)
+                {
+                    mainDisplay.DisplayErrors(e);
+                }
             }
         }
 

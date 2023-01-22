@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace iQuest.VendingMachine
+
 {
     internal class Program
     {

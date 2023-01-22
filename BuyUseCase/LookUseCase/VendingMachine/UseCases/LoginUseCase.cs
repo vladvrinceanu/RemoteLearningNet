@@ -24,7 +24,7 @@ namespace iQuest.VendingMachine.UseCases
         {
             string password = mainDisplay.AskForPassword();
 
-            if (password == "supercalifragilisticexpialidocious")
+            if (password == "vlad")
                 application.UserIsLoggedIn = true;
             else
                 throw new Exception("Invalid password");
