@@ -1,0 +1,8 @@
+NoOcp Modified classes:
+Class Geometric Shapes
+Class Program
+
+Ocp Modified classes:
+Class Program 
+
+Without Open/Closed principle it might be a little harder to implement new logic but its easier to understand the code. On the other side with the Open/Closed principle implemented the code its better organised and easier to extend but can become a little ambigous.
