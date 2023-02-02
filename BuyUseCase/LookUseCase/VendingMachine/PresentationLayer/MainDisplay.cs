@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("TestProject")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.PresentationLayer
 {
     internal class MainDisplay : DisplayBase
@@ -53,7 +55,7 @@ namespace iQuest.VendingMachine.PresentationLayer
             return rawValue;
         }
 
-        public string AskForPassword()
+        public virtual string AskForPassword()
         {
             Console.WriteLine();
             Display("Type the admin password: ", ConsoleColor.Cyan);

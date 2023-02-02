@@ -1,8 +1,9 @@
 ﻿using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.DataLayer;
-using System;
 using iQuest.VendingMachine.Exceptions;
-
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("TestProject")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace iQuest.VendingMachine.UseCases
 {

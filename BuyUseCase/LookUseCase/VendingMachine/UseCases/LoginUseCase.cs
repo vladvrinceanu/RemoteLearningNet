@@ -1,6 +1,8 @@
 ﻿using System;
 using iQuest.VendingMachine.PresentationLayer;
-
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("TestProject")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.UseCases
 {
     internal class LoginUseCase : IUseCase
@@ -14,6 +16,9 @@ namespace iQuest.VendingMachine.UseCases
 
         public bool CanExecute => !application.UserIsLoggedIn;
 
+        public LoginUseCase()
+        {
+        }
         public LoginUseCase(VendingMachineApplication application, MainDisplay mainDisplay)
         {
             this.application = application ?? throw new ArgumentNullException(nameof(application));

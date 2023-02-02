@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.Exceptions;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("TestProject")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace iQuest.VendingMachine
 {
@@ -13,8 +16,11 @@ namespace iQuest.VendingMachine
 
         private bool turnOffWasRequested;
 
-        public bool UserIsLoggedIn { get; set; }
+        public virtual bool UserIsLoggedIn { get; set; }
 
+        public VendingMachineApplication()
+        {
+        }
         public VendingMachineApplication(List<IUseCase> useCases, MainDisplay mainDisplay)
         {
             this.useCases = useCases ?? throw new ArgumentNullException(nameof(useCases));
