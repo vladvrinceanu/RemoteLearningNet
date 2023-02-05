@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace iQuest.VendingMachine.DataLayer
 {
-    internal class ProductRepository
+    internal class ProductRepository : IProductRepository
     {
         private static List<Product> products = new List<Product>
         {

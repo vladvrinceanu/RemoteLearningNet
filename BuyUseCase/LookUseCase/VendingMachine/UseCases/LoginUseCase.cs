@@ -1,27 +1,26 @@
 ﻿using System;
 using iQuest.VendingMachine.PresentationLayer;
 using System.Runtime.CompilerServices;
+using iQuest.VendingMachine.Services;
+
 [assembly: InternalsVisibleTo("TestProject")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.UseCases
 {
     internal class LoginUseCase : IUseCase
     {
-        private readonly VendingMachineApplication application;
-        private readonly MainDisplay mainDisplay;
+        private readonly IAuthentificationService authentificationService;
+        private readonly IMainDisplay mainDisplay;
 
         public string Name => "login";
 
         public string Description => "Get access to administration buttons.";
 
-        public bool CanExecute => !application.UserIsLoggedIn;
+        public bool CanExecute => !authentificationService.UserIsLoggedIn;
 
-        public LoginUseCase()
+        public LoginUseCase(IAuthentificationService authentificationService,IMainDisplay mainDisplay)
         {
-        }
-        public LoginUseCase(VendingMachineApplication application, MainDisplay mainDisplay)
-        {
-            this.application = application ?? throw new ArgumentNullException(nameof(application));
+            this.authentificationService = authentificationService ?? throw new ArgumentNullException(nameof(authentificationService));
             this.mainDisplay = mainDisplay ?? throw new ArgumentNullException(nameof(mainDisplay));
         }
 
@@ -29,10 +28,7 @@ namespace iQuest.VendingMachine.UseCases
         {
             string password = mainDisplay.AskForPassword();
 
-            if (password == "vlad")
-                application.UserIsLoggedIn = true;
-            else
-                throw new Exception("Invalid password");
+            authentificationService.Login(password);
         }
     }
 }

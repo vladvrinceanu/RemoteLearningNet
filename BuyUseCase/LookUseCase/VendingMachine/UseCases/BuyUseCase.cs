@@ -2,29 +2,30 @@
 using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.Exceptions;
 using System.Runtime.CompilerServices;
+using iQuest.VendingMachine.Services;
+using System;
+
 [assembly: InternalsVisibleTo("TestProject")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-
 namespace iQuest.VendingMachine.UseCases
 {
     internal class BuyUseCase : IUseCase
     {
-        private readonly VendingMachineApplication application;
-        private readonly BuyView buyView;
-        private readonly ProductRepository productRepository;
-        
-
+        private readonly IAuthentificationService authentificationService;
+        private readonly IBuyView buyView;
+        private readonly IProductRepository productRepository;
+       
         public string Name => "buy";
 
         public string Description => "Buy a product";
 
-        public bool CanExecute => !application.UserIsLoggedIn;
+        public bool CanExecute => !authentificationService.UserIsLoggedIn;
 
-        public BuyUseCase(VendingMachineApplication application, BuyView buyView, ProductRepository productRepository)
+        public BuyUseCase(IAuthentificationService authentificationService, IBuyView buyView, IProductRepository productRepository)
         {
-            this.application = application;
-            this.buyView = buyView;
-            this.productRepository = productRepository;
+            this.authentificationService = authentificationService ?? throw new ArgumentNullException(nameof(authentificationService));
+            this.buyView = buyView ?? throw new ArgumentNullException(nameof(buyView));
+            this.productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
         public void Execute()
         {

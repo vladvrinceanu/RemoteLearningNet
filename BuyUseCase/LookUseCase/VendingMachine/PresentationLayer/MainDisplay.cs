@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.PresentationLayer
 {
-    internal class MainDisplay : DisplayBase
+    internal class MainDisplay : DisplayBase , IMainDisplay
     {
         public IUseCase ChooseCommand(IEnumerable<IUseCase> useCases)
         {
