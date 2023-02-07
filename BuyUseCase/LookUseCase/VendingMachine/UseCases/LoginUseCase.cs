@@ -1,10 +1,7 @@
 ﻿using System;
 using iQuest.VendingMachine.PresentationLayer;
-using System.Runtime.CompilerServices;
 using iQuest.VendingMachine.Services;
 
-[assembly: InternalsVisibleTo("TestProject")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.UseCases
 {
     internal class LoginUseCase : IUseCase

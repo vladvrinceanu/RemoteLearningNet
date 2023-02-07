@@ -19,6 +19,8 @@
             LogoutUseCase logoutUseCase = new LogoutUseCase(authentificationService.Object);
 
             Assert.NotNull(logoutUseCase);
+            Assert.Equal("logout", logoutUseCase.Name);
+            Assert.Equal("Restrict access to administration buttons.", logoutUseCase.Description);
         }
     }
 }

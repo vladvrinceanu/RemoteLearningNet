@@ -1,9 +1,4 @@
 ﻿using iQuest.VendingMachine.DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestProject.LookUseCaseFolder
 {
@@ -29,7 +24,7 @@ namespace TestProject.LookUseCaseFolder
             productRepository.Setup(x => x.GetAll()).Returns(new List<Product>());
             lookUseCase.Execute();
 
-            shelfView.Verify(x => x.DisplayProducts(It.IsAny<List<Product>>()));
+            shelfView.Verify(x => x.DisplayProducts(It.IsAny<List<Product>>()),Times.Once);
         }
     }
 }

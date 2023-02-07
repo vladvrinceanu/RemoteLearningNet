@@ -1,8 +1,5 @@
 ﻿using iQuest.VendingMachine.Services;
 using System;
-using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("TestProject")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace iQuest.VendingMachine.UseCases
 {

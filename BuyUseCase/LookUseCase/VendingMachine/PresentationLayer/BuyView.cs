@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using iQuest.VendingMachine.Exceptions;
 namespace iQuest.VendingMachine.PresentationLayer
 {
@@ -10,7 +8,7 @@ namespace iQuest.VendingMachine.PresentationLayer
         {
             AskFromConsole("Type the product ID: ", ConsoleColor.Cyan);
             string typedId = Console.ReadLine();
-            if (!string.IsNullOrEmpty(typedId) && !string.IsNullOrEmpty(typedId))
+            if (!string.IsNullOrEmpty(typedId) && !string.IsNullOrWhiteSpace(typedId))
             {
                 bool success = int.TryParse(typedId, out int number);
                 if (success)

@@ -25,6 +25,8 @@ namespace TestProject.LogoutUseCaseFolder
             LoginUseCase loginUseCase = new LoginUseCase(authentificationService.Object, mainDisplay.Object);
 
             Assert.NotNull(loginUseCase);
+            Assert.Equal("login",loginUseCase.Name);
+            Assert.Equal("Get access to administration buttons.",loginUseCase.Description);
         }
     }
 }

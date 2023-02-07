@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestProject.LoginUseCaseFolder
+﻿namespace TestProject.LoginUseCaseFolder
 {
     public class LoginUseCaseExecuteTests
     {
@@ -31,6 +25,17 @@ namespace TestProject.LoginUseCaseFolder
             mainDisplay.Verify(x => x.AskForPassword(),Times.Once);
             authentificationService.Verify(x => x.Login("vlad"),Times.Once);
         }
+        [Fact]
+        public void HavingALoginUseCaseInstance_WhenExecuted_ThenItReceivesAnInvalidPassword()
+        {
+            mainDisplay
+                .Setup(x => x.AskForPassword())
+                .Returns("invalid");
 
+            loginUseCase.Execute();
+
+            mainDisplay.Verify(x => x.AskForPassword(), Times.Once);
+            authentificationService.Verify(x => x.Login("invalid"), Times.Once);
+        }
     }
 }

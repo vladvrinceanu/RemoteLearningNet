@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace iQuest.VendingMachine.DataLayer
+﻿namespace iQuest.VendingMachine.DataLayer
 {
     internal class Product
     {

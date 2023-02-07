@@ -1,12 +1,9 @@
 ﻿using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.Exceptions;
-using System.Runtime.CompilerServices;
 using iQuest.VendingMachine.Services;
 using System;
 
-[assembly: InternalsVisibleTo("TestProject")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace iQuest.VendingMachine.UseCases
 {
     internal class BuyUseCase : IUseCase

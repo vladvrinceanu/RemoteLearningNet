@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace iQuest.VendingMachine.Services
+﻿namespace iQuest.VendingMachine.Services
 {
     internal class TurnOffService : ITurnOffService
     {

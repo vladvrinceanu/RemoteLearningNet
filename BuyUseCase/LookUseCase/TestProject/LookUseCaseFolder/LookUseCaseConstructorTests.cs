@@ -1,9 +1,4 @@
 ﻿using iQuest.VendingMachine.DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestProject.LookUseCaseFolder
 {
@@ -41,6 +36,8 @@ namespace TestProject.LookUseCaseFolder
             LookUseCase lookUseCase = new LookUseCase(authentificationService.Object,shelfView.Object,productRepository.Object);
 
             Assert.NotNull(lookUseCase);
+            Assert.Equal("look", lookUseCase.Name);
+            Assert.Equal("Look at the products.", lookUseCase.Description);
         }
     }
 }

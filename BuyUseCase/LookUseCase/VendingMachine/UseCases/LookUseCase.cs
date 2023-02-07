@@ -13,7 +13,7 @@ namespace iQuest.VendingMachine.UseCases
         private readonly IProductRepository productRepository;
         public string Name => "look";
 
-        public string Description => "Look at the products";
+        public string Description => "Look at the products.";
 
         public bool CanExecute => !authentificationService.UserIsLoggedIn || authentificationService.UserIsLoggedIn;
 

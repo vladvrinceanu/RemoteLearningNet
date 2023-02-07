@@ -1,10 +1,4 @@
-﻿using iQuest.VendingMachine.DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TestProject.TurnOffUseCaseFolder
 {
     public class TurnOffUseCaseConstructorTests
@@ -31,9 +25,11 @@ namespace TestProject.TurnOffUseCaseFolder
         [Fact]
         public void Constructor_Should_Instantiate_Properties_If_All_Services_Are_Provided()
         {
-            TurnOffUseCase lookUseCase = new TurnOffUseCase(authentificationService.Object, turnOffService.Object);
+            TurnOffUseCase turnOffUseCase = new TurnOffUseCase(authentificationService.Object, turnOffService.Object);
 
-            Assert.NotNull(lookUseCase);
+            Assert.NotNull(turnOffUseCase);
+            Assert.Equal("exit", turnOffUseCase.Name);
+            Assert.Equal("Go to live your life.", turnOffUseCase.Description);
         }
     }
 }

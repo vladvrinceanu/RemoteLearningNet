@@ -1,9 +1,5 @@
 ﻿using iQuest.VendingMachine.DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using iQuest.VendingMachine.Exceptions;
 
 namespace TestProject.BuyUseCaseFolder
 {
@@ -12,33 +8,47 @@ namespace TestProject.BuyUseCaseFolder
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<IAuthentificationService> authentificationService;
         private readonly Mock<IBuyView> buyView;
+
+        private readonly BuyUseCase buyUseCase;
         public BuyUseCaseExecuteTests()
         {
             productRepository = new Mock<IProductRepository>();
             buyView = new Mock<IBuyView>();
 
             authentificationService = new Mock<IAuthentificationService>();
+            buyUseCase = new BuyUseCase(authentificationService.Object,buyView.Object,productRepository.Object);
         }
         [Fact]
-        public void HavingNoAdminLoggedIn_CanExecuteIsTrue()
+        public void HavingABuyUseCaseInstance_WhenExecuted_ThenItRequestsFromProductRepositoryTheProductWithTheIdReceivedFromBuyView()
         {
-            authentificationService
-                .Setup(x => x.UserIsLoggedIn)
-                .Returns(false);
-            BuyUseCase buyUseCase = new BuyUseCase(authentificationService.Object, buyView.Object, productRepository.Object);
+            buyView
+                .Setup(x => x.RequestProduct())
+                .Returns(101);
+            productRepository
+                .Setup(x => x.GetByColumn(It.IsAny<int>()))
+                .Returns(new Product {Quantity = 1});
 
-            Assert.True(buyUseCase.CanExecute);
+            buyUseCase.Execute();
+
+            productRepository.Verify(x => x.GetByColumn(101),Times.Once());
         }
-
         [Fact]
-        public void HavingAdminLoggedIn_CanExecuteIsFalse()
+        public void BuyUseCase_Should_Throw_InvalidColumnException_If_RequestProduct_Is_Null()
         {
-            authentificationService
-                .Setup(x => x.UserIsLoggedIn)
-                .Returns(true);
-            BuyUseCase buyUseCase = new BuyUseCase(authentificationService.Object, buyView.Object, productRepository.Object);
+            buyView
+                .Setup(x => x.RequestProduct())
+                .Returns(null);
 
-            Assert.False(buyUseCase.CanExecute);
+            Assert.Throws<InvalidColumnException>(() => buyUseCase.Execute());
+        }
+        [Fact]
+        public void BuyUseCase_Should_Throw_InsuficientStockException_If_ProductRepository_Quantity_Is_Zero()
+        {
+            productRepository
+                 .Setup(x => x.GetByColumn(It.IsAny<int>()))
+                 .Returns(new Product { Quantity = 0 });
+
+            Assert.Throws<InsuficientStockException>(() => buyUseCase.Execute());
         }
     }
 }

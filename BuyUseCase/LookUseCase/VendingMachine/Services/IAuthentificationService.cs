@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace iQuest.VendingMachine.Services
+﻿namespace iQuest.VendingMachine.Services
 {
     public interface IAuthentificationService
     {

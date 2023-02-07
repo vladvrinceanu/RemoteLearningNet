@@ -1,9 +1,4 @@
 ﻿using iQuest.VendingMachine.DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestProject.BuyUseCaseFolder
 {
@@ -41,6 +36,8 @@ namespace TestProject.BuyUseCaseFolder
             BuyUseCase  buyUseCase = new BuyUseCase(authentificationService.Object,buyView.Object,productRepository.Object);
 
             Assert.NotNull(buyUseCase);
+            Assert.Equal("buy",buyUseCase.Name);
+            Assert.Equal("Buy a product", buyUseCase.Description);
         }
 
     }
