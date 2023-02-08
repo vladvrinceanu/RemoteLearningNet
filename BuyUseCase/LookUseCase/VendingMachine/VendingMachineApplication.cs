@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.Exceptions;
+using System.Runtime.CompilerServices;
+using iQuest.VendingMachine.Services;
+
+[assembly: InternalsVisibleTo("TestProject")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace iQuest.VendingMachine
 {
@@ -10,24 +15,19 @@ namespace iQuest.VendingMachine
     {
         private readonly List<IUseCase> useCases;
         private readonly MainDisplay mainDisplay;
+        private readonly ITurnOffService turnOffService;
 
-        private bool turnOffWasRequested;
-
-        public bool UserIsLoggedIn { get; set; }
-
-        public VendingMachineApplication(List<IUseCase> useCases, MainDisplay mainDisplay)
+        public VendingMachineApplication(List<IUseCase> useCases, MainDisplay mainDisplay, ITurnOffService turnOffService)
         {
             this.useCases = useCases ?? throw new ArgumentNullException(nameof(useCases));
             this.mainDisplay = mainDisplay ?? throw new ArgumentNullException(nameof(mainDisplay));
+            this.turnOffService = turnOffService ?? throw new ArgumentNullException(nameof(turnOffService));
         }
-
+    
         public void Run()
         {
-            turnOffWasRequested = false;
-
-            while (!turnOffWasRequested)
+            while (!turnOffService.TurnOffWasRequested)
             {
-               
                 IEnumerable<IUseCase> availableUseCases = useCases
                     .Where(x => x.CanExecute);
 
@@ -54,11 +54,6 @@ namespace iQuest.VendingMachine
                     mainDisplay.DisplayErrors(e);
                 }
             }
-        }
-
-        public void TurnOff()
-        {
-            turnOffWasRequested = true;
         }
     }
 }

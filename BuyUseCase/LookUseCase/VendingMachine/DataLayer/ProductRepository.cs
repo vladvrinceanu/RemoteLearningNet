@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace iQuest.VendingMachine.DataLayer
 {
-    internal class ProductRepository
+    internal class ProductRepository : IProductRepository
     {
         private static List<Product> products = new List<Product>
         {

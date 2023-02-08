@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace iQuest.VendingMachine.PresentationLayer
 {
-    internal class MainDisplay : DisplayBase
+    internal class MainDisplay : DisplayBase , IMainDisplay
     {
         public IUseCase ChooseCommand(IEnumerable<IUseCase> useCases)
         {
@@ -53,7 +53,7 @@ namespace iQuest.VendingMachine.PresentationLayer
             return rawValue;
         }
 
-        public string AskForPassword()
+        public virtual string AskForPassword()
         {
             Console.WriteLine();
             Display("Type the admin password: ", ConsoleColor.Cyan);

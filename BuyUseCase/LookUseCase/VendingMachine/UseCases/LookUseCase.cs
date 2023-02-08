@@ -1,25 +1,27 @@
 ﻿using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.PresentationLayer;
+using iQuest.VendingMachine.Services;
+using System;
 
 namespace iQuest.VendingMachine.UseCases
 {
     internal class LookUseCase : IUseCase
 
     {
-        private readonly VendingMachineApplication application;
-        private readonly ShelfView shelfView;
-        private readonly ProductRepository productRepository;
+        private readonly IAuthentificationService authentificationService;
+        private readonly IShelfView shelfView;
+        private readonly IProductRepository productRepository;
         public string Name => "look";
 
-        public string Description => "Look at the products";
+        public string Description => "Look at the products.";
 
-        public bool CanExecute => !application.UserIsLoggedIn || application.UserIsLoggedIn;
+        public bool CanExecute => !authentificationService.UserIsLoggedIn || authentificationService.UserIsLoggedIn;
 
-        public LookUseCase(VendingMachineApplication application, ShelfView shelfView, ProductRepository productRepository)
+        public LookUseCase(IAuthentificationService authentificationService, IShelfView shelfView, IProductRepository productRepository)
         {
-            this.application = application;
-            this.shelfView = shelfView;
-            this.productRepository = productRepository;
+            this.authentificationService = authentificationService ?? throw new ArgumentNullException(nameof(authentificationService));
+            this.shelfView = shelfView ?? throw new ArgumentNullException(nameof(shelfView));
+            this.productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
 
         public void Execute()
