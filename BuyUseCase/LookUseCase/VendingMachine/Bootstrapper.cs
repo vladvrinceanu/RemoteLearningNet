@@ -24,8 +24,10 @@ namespace iQuest.VendingMachine
             TurnOffService turnOffService = new TurnOffService();
 
             List<IUseCase> useCases = new List<IUseCase>();
-
+            List<IPaymentAlgorithm> paymentAlgorithms = new List<IPaymentAlgorithm>();
+            
             VendingMachineApplication vendingMachineApplication = new VendingMachineApplication(useCases, mainDisplay, turnOffService);
+            PaymentUseCase paymentUseCase = new PaymentUseCase(paymentAlgorithms,buyView);
 
             useCases.AddRange(new IUseCase[]
             {
@@ -33,7 +35,13 @@ namespace iQuest.VendingMachine
                 new LogoutUseCase(authentificationService),
                 new TurnOffUseCase(authentificationService,turnOffService),
                 new LookUseCase(authentificationService,shelfView,productRepository),
-                new BuyUseCase(authentificationService,buyView,productRepository)
+                new BuyUseCase(authentificationService,buyView,productRepository,paymentUseCase)
+            });
+
+            paymentAlgorithms.AddRange(new IPaymentAlgorithm[]
+            {
+                new CashPayment { Name = "Cash payment." },
+                new CardPayment { Name = "Card payment "}
             });
 
             return vendingMachineApplication;

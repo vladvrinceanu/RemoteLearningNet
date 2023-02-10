@@ -37,6 +37,10 @@ namespace iQuest.VendingMachine
                 {
                     useCase.Execute();
                 }
+                catch (InvalidInputException e)
+                {
+                   mainDisplay.DisplayErrors(e);
+                }
                 catch (InvalidColumnException e)
                 {
                    mainDisplay.DisplayErrors(e);

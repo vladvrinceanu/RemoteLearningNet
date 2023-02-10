@@ -1,8 +1,12 @@
-﻿namespace iQuest.VendingMachine.PresentationLayer
+﻿using iQuest.VendingMachine.DataLayer;
+using System.Collections.Generic;
+
+namespace iQuest.VendingMachine.PresentationLayer
 {
-    public interface IBuyView
+    internal interface IBuyView
     {
         int RequestProduct();
         void DispenseProduct(string productName);
+        string AskForPaymentMethod(IEnumerable<string> paymentMethods);
     }
 }

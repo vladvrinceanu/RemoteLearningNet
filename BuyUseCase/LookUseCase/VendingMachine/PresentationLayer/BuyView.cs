@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.Exceptions;
 namespace iQuest.VendingMachine.PresentationLayer
 {
@@ -29,6 +32,27 @@ namespace iQuest.VendingMachine.PresentationLayer
         {
             Console.WriteLine();
             DisplayLine($"{"You bought: "} {productName}",ConsoleColor.Green);
+        }
+        public string AskForPaymentMethod(IEnumerable<string> paymentMethods)
+        {
+            Console.WriteLine();
+            AskFromConsole("Please select a payment method: ", ConsoleColor.Cyan);
+
+            int i = 1; 
+
+            foreach(string paymentMethod in paymentMethods)
+            {
+                Console.Write($"{i++}. {paymentMethod} ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.Write("Select: ");
+            string choice = Console.ReadLine();
+
+            int corect = int.Parse(choice) - 1;
+
+            return paymentMethods.ElementAt(corect);
         }
     }
 }
