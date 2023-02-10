@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.Exceptions;
+
 namespace iQuest.VendingMachine.PresentationLayer
 {
     internal class BuyView : DisplayBase , IBuyView

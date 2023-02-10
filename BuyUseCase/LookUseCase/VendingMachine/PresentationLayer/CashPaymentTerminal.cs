@@ -1,5 +1,6 @@
 ﻿using iQuest.VendingMachine.Exceptions;
 using System;
+
 namespace iQuest.VendingMachine.PresentationLayer
 {
     internal class CashPaymentTerminal : DisplayBase
