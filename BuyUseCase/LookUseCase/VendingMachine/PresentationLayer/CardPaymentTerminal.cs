@@ -9,14 +9,11 @@ namespace iQuest.VendingMachine.PresentationLayer
         {
             Display("Please enter the card number: ", ConsoleColor.Cyan);
             string cardNumber = Console.ReadLine();
-            if (!string.IsNullOrEmpty(cardNumber) && !string.IsNullOrWhiteSpace(cardNumber))
-            {
-                return cardNumber;
-            }
-            else
+            if (string.IsNullOrEmpty(cardNumber) || string.IsNullOrWhiteSpace(cardNumber))
             {
                 throw new InvalidInputException("Invalid input.");
             }
+            return cardNumber;
         }  
     }
 }

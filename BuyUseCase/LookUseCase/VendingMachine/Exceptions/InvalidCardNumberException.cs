@@ -8,12 +8,5 @@ namespace iQuest.VendingMachine.Exceptions
         public InvalidCardNumberException(string message)
            : base(message)
         { }
-        public override string StackTrace
-        {
-            get
-            {
-                return "";
-            }
-        }
     }
 }

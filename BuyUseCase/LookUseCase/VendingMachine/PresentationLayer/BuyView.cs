@@ -50,9 +50,14 @@ namespace iQuest.VendingMachine.PresentationLayer
             Console.Write("Select: ");
             string choice = Console.ReadLine();
 
-            int corect = int.Parse(choice) - 1;
-
-            return paymentMethods.ElementAt(corect);
+            if (int.TryParse(choice, out int value))
+            {
+                return paymentMethods.ElementAt(value - 1);
+            }
+            else
+            {
+                throw new InvalidInputException("Invalid choice.");
+            }
         }
     }
 }

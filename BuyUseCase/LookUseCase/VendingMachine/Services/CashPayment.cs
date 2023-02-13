@@ -8,24 +8,38 @@ namespace iQuest.VendingMachine.Services
     {
         public string Name { get; set; }
         private CashPaymentTerminal cashPaymentTerminal;
+        public CashPayment (string name,CashPaymentTerminal cashPaymentTerminal)
+        {
+           Name = name;
+           this.cashPaymentTerminal = cashPaymentTerminal;
+        }
         public void Run(float price)
         {
-           cashPaymentTerminal = new CashPaymentTerminal();
-
            Console.WriteLine();
            DisplayLine("Payment method: Cash",ConsoleColor.White);
            DisplayLine($"Price: {price}",ConsoleColor.White);
-           float? input = cashPaymentTerminal.AskForMoney();
-
-           if(input > price)
-            {
-                cashPaymentTerminal.GiveBackChange((float)input - price);
-            }
-           if(input < price)
-            {
-                DisplayLine($"Insuficient funds.Please take back your money: {input}", ConsoleColor.Red);
-                throw new CancelException("Insuficient funds.");
-            }
+           float insertedMoney = 0;
+           while (insertedMoney < price)
+           {
+                try
+                {
+                    float? input = cashPaymentTerminal.AskForMoney();
+                    insertedMoney += (float)input;
+                }
+                catch (InvalidInputException)
+                {
+                    cashPaymentTerminal.GiveBackChange(insertedMoney);
+                    throw new CancelException("Transaction cancelled.");
+                }
+                if (insertedMoney > price)
+                {
+                    cashPaymentTerminal.GiveBackChange(insertedMoney - price);
+                }
+                if (insertedMoney < price)
+                {
+                    DisplayLine($"Inserted money: {insertedMoney}", ConsoleColor.White);
+                }
+           }
         }
     }
 }

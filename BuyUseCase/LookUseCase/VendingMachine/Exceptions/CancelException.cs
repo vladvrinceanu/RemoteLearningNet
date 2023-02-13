@@ -8,12 +8,5 @@ namespace iQuest.VendingMachine.Exceptions
         public CancelException(string message)
            : base(message)
         { }
-        public override string StackTrace
-        {
-            get 
-            { 
-                return ""; 
-            }
-        }
     }
 }

@@ -8,36 +8,21 @@ namespace iQuest.VendingMachine.Services
     {
         public string Name { get; set; }
         private CardPaymentTerminal cardPaymentTerminal;
+        private CardValidator cardValidator;
+        public CardPayment(string name, CardPaymentTerminal cardPaymentTerminal, CardValidator cardValidator)
+        {
+            Name = name;
+            this.cardPaymentTerminal = cardPaymentTerminal;
+            this.cardValidator = cardValidator;
+        }
         public void Run(float price)
         {
-            cardPaymentTerminal = new CardPaymentTerminal();
-
             Console.WriteLine();
             DisplayLine("Payment method: Card", ConsoleColor.White);
             DisplayLine($"Price: {price}", ConsoleColor.White);
             string cardNumber = cardPaymentTerminal.AskForCardNumber();
 
-            static bool CardNumberIsValid(string cardNumber)
-            {
-                int sum = 0;
-                bool secondNumber = false;
-                for (int i = cardNumber.Length - 1; i >= 0; i--)
-                {
-                    int n = int.Parse(cardNumber[i].ToString());
-                    if(secondNumber)
-                    {
-                        n *= 2;
-                        if(n > 9)
-                        {
-                            n = (n%10) + (n/10);
-                        }
-                    }
-                    sum += n;
-                    secondNumber = !secondNumber;
-                }
-                return (sum % 10 == 0);
-            }
-            if (CardNumberIsValid(cardNumber))
+            if (cardValidator.IsCardNumberValid(cardNumber))
             {
                 Console.WriteLine();
                 DisplayLine("Valid Card.Transaction approved.",ConsoleColor.Green);

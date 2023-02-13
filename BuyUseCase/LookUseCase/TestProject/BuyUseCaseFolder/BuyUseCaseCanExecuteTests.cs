@@ -7,10 +7,12 @@ namespace TestProject.BuyUseCaseFolder
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<IAuthentificationService> authenticationService;
         private readonly Mock<IBuyView> buyView;
+        private readonly Mock<IPaymentUseCase> paymentUseCase;
         public BuyUseCaseCanExecuteTests()
         {
             productRepository = new Mock<IProductRepository>();
             buyView = new Mock<IBuyView>();
+            paymentUseCase = new Mock<IPaymentUseCase>();
 
             authenticationService = new Mock<IAuthentificationService>();
         }
@@ -20,7 +22,7 @@ namespace TestProject.BuyUseCaseFolder
             authenticationService
                 .Setup(x => x.UserIsLoggedIn)
                 .Returns(false);
-            BuyUseCase buyUseCase = new BuyUseCase(authenticationService.Object, buyView.Object, productRepository.Object);
+            BuyUseCase buyUseCase = new BuyUseCase(authenticationService.Object, buyView.Object, productRepository.Object,paymentUseCase.Object);
 
             Assert.True(buyUseCase.CanExecute);
         }
@@ -30,7 +32,7 @@ namespace TestProject.BuyUseCaseFolder
             authenticationService
                 .Setup(x => x.UserIsLoggedIn)
                 .Returns(true);
-            BuyUseCase buyUseCase = new BuyUseCase(authenticationService.Object, buyView.Object, productRepository.Object);
+            BuyUseCase buyUseCase = new BuyUseCase(authenticationService.Object, buyView.Object, productRepository.Object,paymentUseCase.Object);
 
             Assert.False(buyUseCase.CanExecute);
         }

@@ -1,5 +1,6 @@
 ﻿using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +12,8 @@ namespace iQuest.VendingMachine.UseCases
         private IBuyView buyView;
         public PaymentUseCase(List<IPaymentAlgorithm> paymentAlgorithms,IBuyView buyView)
         {
-            this.paymentAlgorithms = paymentAlgorithms;
-            this.buyView = buyView;
+            this.paymentAlgorithms = paymentAlgorithms ?? throw new ArgumentNullException(nameof(paymentAlgorithms));
+            this.buyView = buyView ?? throw new ArgumentNullException(nameof(buyView));
         }
         public void Execute(float price)
         {
