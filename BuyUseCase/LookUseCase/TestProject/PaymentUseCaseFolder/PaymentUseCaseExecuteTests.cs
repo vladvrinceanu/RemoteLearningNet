@@ -42,6 +42,8 @@
             buyView.Setup(x => x.AskForPaymentMethod(It.IsAny<IEnumerable<string>>())).Returns("Cash payment");
             float price = 5;
 
+            var paymentUseCase = new PaymentUseCase(paymentAlgorithms, buyView.Object);
+
             paymentUseCase.Execute(price);
 
             paymentAlgorithm1.Verify(x => x.Run(price), Times.Once);
