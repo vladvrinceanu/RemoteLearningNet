@@ -3,9 +3,9 @@
 namespace iQuest.VendingMachine.Exceptions
 {
     [Serializable()]
-    internal class CancelException : Exception
+    internal class InvalidInputException : Exception
     {
-        public CancelException(string message)
+        public InvalidInputException(string message)
            : base(message)
         { }
     }

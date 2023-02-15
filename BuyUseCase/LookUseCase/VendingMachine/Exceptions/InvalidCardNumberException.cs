@@ -3,9 +3,9 @@
 namespace iQuest.VendingMachine.Exceptions
 {
     [Serializable()]
-    internal class CancelException : Exception
+    internal class InvalidCardNumberException : Exception
     {
-        public CancelException(string message)
+        public InvalidCardNumberException(string message)
            : base(message)
         { }
     }

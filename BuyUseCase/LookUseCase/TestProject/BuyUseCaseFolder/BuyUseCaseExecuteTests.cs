@@ -8,15 +8,17 @@ namespace TestProject.BuyUseCaseFolder
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<IAuthentificationService> authentificationService;
         private readonly Mock<IBuyView> buyView;
+        private readonly Mock<IPaymentUseCase> paymentUseCase;
 
         private readonly BuyUseCase buyUseCase;
         public BuyUseCaseExecuteTests()
         {
+            paymentUseCase = new Mock<IPaymentUseCase>();
             productRepository = new Mock<IProductRepository>();
             buyView = new Mock<IBuyView>();
 
             authentificationService = new Mock<IAuthentificationService>();
-            buyUseCase = new BuyUseCase(authentificationService.Object,buyView.Object,productRepository.Object);
+            buyUseCase = new BuyUseCase(authentificationService.Object,buyView.Object,productRepository.Object,paymentUseCase.Object);
         }
         [Fact]
         public void HavingABuyUseCaseInstance_WhenExecuted_ThenItRequestsFromProductRepositoryTheProductWithTheIdReceivedFromBuyView()

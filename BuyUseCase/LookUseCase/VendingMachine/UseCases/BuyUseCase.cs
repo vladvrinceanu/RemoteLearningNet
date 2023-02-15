@@ -11,6 +11,7 @@ namespace iQuest.VendingMachine.UseCases
         private readonly IAuthentificationService authentificationService;
         private readonly IBuyView buyView;
         private readonly IProductRepository productRepository;
+        private readonly IPaymentUseCase paymentUseCase;
        
         public string Name => "buy";
 
@@ -18,11 +19,12 @@ namespace iQuest.VendingMachine.UseCases
 
         public bool CanExecute => !authentificationService.UserIsLoggedIn;
 
-        public BuyUseCase(IAuthentificationService authentificationService, IBuyView buyView, IProductRepository productRepository)
+        public BuyUseCase(IAuthentificationService authentificationService, IBuyView buyView, IProductRepository productRepository,IPaymentUseCase paymentUseCase)
         {
             this.authentificationService = authentificationService ?? throw new ArgumentNullException(nameof(authentificationService));
             this.buyView = buyView ?? throw new ArgumentNullException(nameof(buyView));
             this.productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            this.paymentUseCase = paymentUseCase ?? throw new ArgumentNullException(nameof(paymentUseCase));
         }
         public void Execute()
         {
@@ -34,6 +36,7 @@ namespace iQuest.VendingMachine.UseCases
             }
             if (product.Quantity > 0)
             {
+                paymentUseCase.Execute(product.Price);
                 product.Quantity--;
                 buyView.DispenseProduct(product.Name);
             }

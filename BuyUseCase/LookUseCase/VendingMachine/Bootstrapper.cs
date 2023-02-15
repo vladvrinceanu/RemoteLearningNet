@@ -22,10 +22,17 @@ namespace iQuest.VendingMachine
             BuyView buyView = new BuyView();
             AuthentificationService authentificationService = new AuthentificationService();
             TurnOffService turnOffService = new TurnOffService();
+            CashPaymentTerminal cashPaymentTerminal = new CashPaymentTerminal();
+            CardPaymentTerminal cardPaymentTerminal = new CardPaymentTerminal();
+            CardValidator cardValidator = new CardValidator();
 
             List<IUseCase> useCases = new List<IUseCase>();
-
+            List<IPaymentAlgorithm> paymentAlgorithms = new List<IPaymentAlgorithm>();
+            paymentAlgorithms.Add(new CashPayment (cashPaymentTerminal));
+            paymentAlgorithms.Add(new CardPayment (cardPaymentTerminal, cardValidator));
+            
             VendingMachineApplication vendingMachineApplication = new VendingMachineApplication(useCases, mainDisplay, turnOffService);
+            PaymentUseCase paymentUseCase = new PaymentUseCase(paymentAlgorithms,buyView);
 
             useCases.AddRange(new IUseCase[]
             {
@@ -33,9 +40,8 @@ namespace iQuest.VendingMachine
                 new LogoutUseCase(authentificationService),
                 new TurnOffUseCase(authentificationService,turnOffService),
                 new LookUseCase(authentificationService,shelfView,productRepository),
-                new BuyUseCase(authentificationService,buyView,productRepository)
+                new BuyUseCase(authentificationService,buyView,productRepository,paymentUseCase)
             });
-
             return vendingMachineApplication;
         }
     } 
