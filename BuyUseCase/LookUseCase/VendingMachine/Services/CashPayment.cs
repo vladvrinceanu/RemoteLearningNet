@@ -6,30 +6,28 @@ namespace iQuest.VendingMachine.Services
 {
     internal class CashPayment : DisplayBase, IPaymentAlgorithm 
     {
-        public string Name { get; set; }
-        private CashPaymentTerminal cashPaymentTerminal;
-        public CashPayment (string name,CashPaymentTerminal cashPaymentTerminal)
+        public string Name => "Cash payment.";
+        private ICashPaymentTerminal cashPaymentTerminal;
+        public CashPayment (ICashPaymentTerminal cashPaymentTerminal)
         {
-           Name = name;
            this.cashPaymentTerminal = cashPaymentTerminal;
         }
         public void Run(float price)
         {
-           Console.WriteLine();
-           DisplayLine("Payment method: Cash",ConsoleColor.White);
-           DisplayLine($"Price: {price}",ConsoleColor.White);
            float insertedMoney = 0;
+           cashPaymentTerminal.DisplayChosenPaymentMethod();
            while (insertedMoney < price)
            {
                 try
                 {
+                    cashPaymentTerminal.DisplayPrice(price);
                     float? input = cashPaymentTerminal.AskForMoney();
                     insertedMoney += (float)input;
                 }
-                catch (InvalidInputException)
+                catch (CancelException)
                 {
                     cashPaymentTerminal.GiveBackChange(insertedMoney);
-                    throw new CancelException("Transaction cancelled.");
+                    throw;
                 }
                 if (insertedMoney > price)
                 {
@@ -37,9 +35,9 @@ namespace iQuest.VendingMachine.Services
                 }
                 if (insertedMoney < price)
                 {
-                    DisplayLine($"Inserted money: {insertedMoney}", ConsoleColor.White);
+                    cashPaymentTerminal.DisplayInsertedMoney(insertedMoney);
                 }
-           }
+            }
         }
     }
 }

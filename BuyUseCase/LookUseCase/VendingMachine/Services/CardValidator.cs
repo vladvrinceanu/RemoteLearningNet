@@ -1,6 +1,6 @@
 ﻿namespace iQuest.VendingMachine.Services
 {
-    internal class CardValidator
+    internal class CardValidator : ICardValidator
     {
         public bool IsCardNumberValid(string cardNumber)
         {

@@ -49,7 +49,7 @@ namespace iQuest.VendingMachine.PresentationLayer
             Console.WriteLine();
             Console.Write("Select: ");
             string choice = Console.ReadLine();
-
+            Console.WriteLine();
             if (int.TryParse(choice, out int value))
             {
                 return paymentMethods.ElementAt(value - 1);

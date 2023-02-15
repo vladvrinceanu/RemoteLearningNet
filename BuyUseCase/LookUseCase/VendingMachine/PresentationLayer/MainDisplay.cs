@@ -62,7 +62,9 @@ namespace iQuest.VendingMachine.PresentationLayer
         public void DisplayErrors(Exception e)
         {
             Console.WriteLine();
-            Display(e.ToString(), ConsoleColor.Red);
+            Display(e.Message, ConsoleColor.Red);
+            Console.WriteLine();
+            Display($"{"StackTrace: "}{e.StackTrace.ToString()}", ConsoleColor.Red);
         }
     }
 }

@@ -6,26 +6,22 @@ namespace iQuest.VendingMachine.Services
 {
     internal class CardPayment : DisplayBase, IPaymentAlgorithm
     {
-        public string Name { get; set; }
-        private CardPaymentTerminal cardPaymentTerminal;
-        private CardValidator cardValidator;
-        public CardPayment(string name, CardPaymentTerminal cardPaymentTerminal, CardValidator cardValidator)
-        {
-            Name = name;
+        public string Name => "Card payment.";
+        private ICardPaymentTerminal cardPaymentTerminal;
+        private ICardValidator cardValidator;
+        public CardPayment(ICardPaymentTerminal cardPaymentTerminal, ICardValidator cardValidator)
+        { 
             this.cardPaymentTerminal = cardPaymentTerminal;
             this.cardValidator = cardValidator;
         }
         public void Run(float price)
         {
-            Console.WriteLine();
-            DisplayLine("Payment method: Card", ConsoleColor.White);
-            DisplayLine($"Price: {price}", ConsoleColor.White);
+            cardPaymentTerminal.DisplayChosenPaymentMethod();
             string cardNumber = cardPaymentTerminal.AskForCardNumber();
-
+            cardPaymentTerminal.DisplayPrice(price);
             if (cardValidator.IsCardNumberValid(cardNumber))
             {
-                Console.WriteLine();
-                DisplayLine("Valid Card.Transaction approved.",ConsoleColor.Green);
+                cardPaymentTerminal.ApprovedCardMessage();
             }
             else
             {

@@ -28,8 +28,8 @@ namespace iQuest.VendingMachine
 
             List<IUseCase> useCases = new List<IUseCase>();
             List<IPaymentAlgorithm> paymentAlgorithms = new List<IPaymentAlgorithm>();
-            paymentAlgorithms.Add(new CashPayment ("Cash payment" , cashPaymentTerminal));
-            paymentAlgorithms.Add(new CardPayment ("Card payment" , cardPaymentTerminal, cardValidator));
+            paymentAlgorithms.Add(new CashPayment (cashPaymentTerminal));
+            paymentAlgorithms.Add(new CardPayment (cardPaymentTerminal, cardValidator));
             
             VendingMachineApplication vendingMachineApplication = new VendingMachineApplication(useCases, mainDisplay, turnOffService);
             PaymentUseCase paymentUseCase = new PaymentUseCase(paymentAlgorithms,buyView);
