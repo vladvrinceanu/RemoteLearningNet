@@ -3,6 +3,7 @@ using iQuest.VendingMachine.PresentationLayer;
 using iQuest.VendingMachine.UseCases;
 using iQuest.VendingMachine.DataLayer;
 using iQuest.VendingMachine.Services;
+using System.IO;
 
 namespace iQuest.VendingMachine
 {
@@ -26,6 +27,14 @@ namespace iQuest.VendingMachine
             CardPaymentTerminal cardPaymentTerminal = new CardPaymentTerminal();
             CardValidator cardValidator = new CardValidator();
 
+            string path = @"C:\Data\ProductData.db";
+
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
+            IProductRepository databaseProductRepositor = new LiteDbProductRepository(path);
+
             List<IUseCase> useCases = new List<IUseCase>();
             List<IPaymentAlgorithm> paymentAlgorithms = new List<IPaymentAlgorithm>();
             paymentAlgorithms.Add(new CashPayment (cashPaymentTerminal));
@@ -39,8 +48,8 @@ namespace iQuest.VendingMachine
                 new LoginUseCase(authentificationService, mainDisplay),
                 new LogoutUseCase(authentificationService),
                 new TurnOffUseCase(authentificationService,turnOffService),
-                new LookUseCase(authentificationService,shelfView,productRepository),
-                new BuyUseCase(authentificationService,buyView,productRepository,paymentUseCase)
+                new LookUseCase(authentificationService,shelfView,databaseProductRepositor),
+                new BuyUseCase(authentificationService,buyView,databaseProductRepositor,paymentUseCase)
             });
             return vendingMachineApplication;
         }
