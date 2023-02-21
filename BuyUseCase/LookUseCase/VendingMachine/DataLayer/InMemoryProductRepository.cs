@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace iQuest.VendingMachine.DataLayer
 {
-    internal class ProductRepository : IProductRepository
+    internal class InMemoryProductRepository : IProductRepository
     {
         private static List<Product> products = new List<Product>
         {

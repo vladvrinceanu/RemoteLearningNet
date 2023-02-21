@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using LiteDB;
 
 namespace iQuest.VendingMachine.DataLayer
@@ -13,8 +11,11 @@ namespace iQuest.VendingMachine.DataLayer
         public LiteDbProductRepository(string connectionString)
         {
             context = new LiteDatabase(connectionString);
-
-            var productCollection = this.context.GetCollection<Product>();
+            SeedData();
+        }
+            public void SeedData()
+        {
+            var productCollection = context.GetCollection<Product>();
             if (IsDBEmpty())
             {
                 var product = new List<Product>
@@ -34,7 +35,7 @@ namespace iQuest.VendingMachine.DataLayer
         public Product GetByColumn(int columnId)
         {
             var col = context.GetCollection<Product>();
-            return col.Find(x => x.ColumnId == columnId).FirstOrDefault();
+            return col.FindOne(x => x.ColumnId == columnId);
         }
         public void AddProduct(Product product)
         {
