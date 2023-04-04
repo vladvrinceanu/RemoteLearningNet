@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using iQuest.Terra;
 
 namespace iQuest.TerraPlus
 {
-    public class ContinentPlus
+    public class ContinentPlus 
     {
         private readonly List<Country> countries = new List<Country>();
 
@@ -18,16 +20,14 @@ namespace iQuest.TerraPlus
 
             this.countries.AddRange(countries);
         }
-
         public IEnumerable<Country> EnumerateCountriesByName()
         {
             countries.Sort();
             return countries;
         }
-
         public IEnumerable<Country> EnumerateCountriesByCapital()
         {
-            throw new NotImplementedException();
+            return countries.OrderBy(c => c?.Capital);
         }
     }
 }

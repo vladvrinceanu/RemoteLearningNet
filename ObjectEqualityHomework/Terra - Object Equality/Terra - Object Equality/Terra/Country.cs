@@ -2,7 +2,7 @@
 
 namespace iQuest.Terra
 {
-    public class Country
+    public class Country : IComparable
     {
         public string Name { get; }
 
