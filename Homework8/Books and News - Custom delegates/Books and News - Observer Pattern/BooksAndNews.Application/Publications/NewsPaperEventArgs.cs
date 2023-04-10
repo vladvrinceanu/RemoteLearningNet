@@ -4,10 +4,10 @@ using System.Text;
 
 namespace iQuest.BooksAndNews.Application.Publications
 {
-    internal class NewspaperEventArgs : EventArgs
+    internal class NewsPaperEventArgs : EventArgs
     {
         private readonly Newspaper newsPaper;
-        public NewspaperEventArgs(Newspaper newspaper)
+        public NewsPaperEventArgs(Newspaper newspaper)
         {
             this.newsPaper = newspaper;
         }
