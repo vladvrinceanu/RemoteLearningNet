@@ -93,6 +93,7 @@
                     }
                 }
             }
+            size = newSize;
             buckets = newBuckets;
         }
         public TValue this[TKey key]
@@ -123,6 +124,7 @@
                     current = current.Next;
                 }
             }
+            throw new KeyNotFoundException("Key not found");
         }
     }
 }
