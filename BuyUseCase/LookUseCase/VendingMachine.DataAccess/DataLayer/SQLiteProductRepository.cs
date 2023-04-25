@@ -1,10 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace iQuest.VendingMachine.DataLayer
 {
@@ -83,6 +77,7 @@ namespace iQuest.VendingMachine.DataLayer
                 connection.Open();
                 var sql = new SqliteCommand(
                     "SELECT * FROM PRODUCT WHERE ColumnId = @ColumnId",connection);
+                sql.Parameters.AddWithValue("@ColumnId", columnId);
                 var reader = sql.ExecuteReader();
 
                 if (reader.Read())

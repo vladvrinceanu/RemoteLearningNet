@@ -12,24 +12,9 @@ namespace iQuest.VendingMachine
     {
         public void Run()
         {
-            VendingMachineApplication vendingMachineApplication = BuildApplication();
-            vendingMachineApplication.Run();
-        }
-
-        private static VendingMachineApplication BuildApplication()
-        {
-            MainDisplay mainDisplay = new MainDisplay();
-            ShelfView shelfView = new ShelfView();
-            BuyView buyView = new BuyView();
-            AuthentificationService authentificationService = new AuthentificationService();
-            TurnOffService turnOffService = new TurnOffService();
-            CashPaymentTerminal cashPaymentTerminal = new CashPaymentTerminal();
-            CardPaymentTerminal cardPaymentTerminal = new CardPaymentTerminal();
-            CardValidator cardValidator = new CardValidator();
-
             string repoType = ConfigurationManager.AppSettings["repoType"];
-            IProductRepository productRepository = null;
-            switch(repoType)
+            IProductRepository productRepository;
+            switch (repoType)
             {
                 case "Memory":
                     productRepository = new InMemoryProductRepository();
@@ -42,9 +27,25 @@ namespace iQuest.VendingMachine
                     string connectionString2 = ConfigurationManager.ConnectionStrings["LiteDB"].ConnectionString;
                     productRepository = new LiteDbProductRepository(connectionString2);
                     break;
-                    default:
+                default:
                     throw new ConfigurationErrorsException("Invalid type.");
             }
+            VendingMachineApplication vendingMachineApplication = BuildApplication(productRepository);
+            vendingMachineApplication.Run();
+        }
+
+        private static VendingMachineApplication BuildApplication(IProductRepository productRepository)
+        {
+            MainDisplay mainDisplay = new MainDisplay();
+            ShelfView shelfView = new ShelfView();
+            BuyView buyView = new BuyView();
+            AuthentificationService authentificationService = new AuthentificationService();
+            TurnOffService turnOffService = new TurnOffService();
+            CashPaymentTerminal cashPaymentTerminal = new CashPaymentTerminal();
+            CardPaymentTerminal cardPaymentTerminal = new CardPaymentTerminal();
+            CardValidator cardValidator = new CardValidator();
+
+           
             List<IUseCase> useCases = new List<IUseCase>();
             List<IPaymentAlgorithm> paymentAlgorithms = new List<IPaymentAlgorithm>();
             paymentAlgorithms.Add(new CashPayment (cashPaymentTerminal));
@@ -58,7 +59,7 @@ namespace iQuest.VendingMachine
                 new LoginUseCase(authentificationService, mainDisplay),
                 new LogoutUseCase(authentificationService),
                 new TurnOffUseCase(authentificationService,turnOffService),
-                new LookUseCase(authentificationService,shelfView,productRepository),
+                new LookUseCase(authentificationService,shelfView, productRepository),
                 new BuyUseCase(authentificationService,buyView,productRepository,paymentUseCase)
             });
             return vendingMachineApplication;
