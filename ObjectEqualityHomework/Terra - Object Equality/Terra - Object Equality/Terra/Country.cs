@@ -2,7 +2,7 @@
 
 namespace iQuest.Terra
 {
-    public class Country : IComparable
+    public class Country : IComparable , IEquatable<Country>
     {
         public string Name { get; }
 
@@ -25,6 +25,13 @@ namespace iQuest.Terra
                 return Capital.CompareTo(country.Capital);
             }
             throw new ArgumentException("Object is not a Country.");
+        }
+        public bool Equals(Country other)
+        {
+            if (other == null) 
+                return false;
+
+            return Name == other.Name && Capital == other.Capital;
         }
         public override bool Equals(object obj)
         {
