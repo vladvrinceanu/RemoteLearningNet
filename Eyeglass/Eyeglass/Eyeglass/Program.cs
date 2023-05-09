@@ -4,30 +4,52 @@ namespace Eyeglass
 {
     public class Reflection
     {
-      static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Assembly assembly = Assembly.LoadFrom(@"D:\NagarroRemoteLearning\RemoteLearningNet\BuyUseCase\LookUseCase\VendingMachine\bin\Debug\netcoreapp3.1\iQuest.VendingMachine.dll");
-            var MyType = assembly.GetType("iQuest.VendingMachine.Program");
-            dynamic MyObject = Activator.CreateInstance(MyType);
-            Type parameterType = MyObject.GetType();
-           
-
-            Console.WriteLine("All public Fields");
-            foreach(MemberInfo member in parameterType.GetFields()) 
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string? outPut = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            using (Stream? dllStream = assembly.GetManifestResourceStream("Eyeglass.iQuest.VendingMachine.dll"))
             {
-                Console.WriteLine(member.Name);
+                    string? dllPath = Path.Combine(outPut ?? "", "iQuest.VendingMachine.dll");
+                    using (Stream? fileStream = File.Create(dllPath))
+                    {
+                        if (dllStream != null)
+                        {
+                            dllStream.CopyTo(fileStream);
+                        }
+                    }
             }
-
-            Console.WriteLine("All public methods");
-            foreach(MemberInfo member in parameterType.GetMethods())
+            Assembly? loadAssembly = Assembly.LoadFrom(Path.Combine(outPut ?? "", "iQuest.VendingMachine.dll"));
+            if (loadAssembly != null)
             {
-                Console.WriteLine(member.Name);
-            }
+                Type? myType = loadAssembly.GetType("iQuest.VendingMachine.Program");
+                if (myType != null)
+                {
+                    dynamic? myObject = Activator.CreateInstance(myType);
+                    if (myObject != null)
+                    {
+                        Type? parameterType = myObject.GetType();
 
-            Console.WriteLine("All public properties");
-            foreach(MemberInfo member in parameterType.GetProperties())
-            {
-                Console.WriteLine(member.Name);
+
+                        Console.WriteLine("All public Fields");
+                        foreach (MemberInfo member in parameterType.GetFields())
+                        {
+                            Console.WriteLine(member.Name);
+                        }
+
+                        Console.WriteLine("All public methods");
+                        foreach (MemberInfo member in parameterType.GetMethods())
+                        {
+                            Console.WriteLine(member.Name);
+                        }
+
+                        Console.WriteLine("All public properties");
+                        foreach (MemberInfo member in parameterType.GetProperties())
+                        {
+                            Console.WriteLine(member.Name);
+                        }
+                    }
+                }
             }
         }
     }

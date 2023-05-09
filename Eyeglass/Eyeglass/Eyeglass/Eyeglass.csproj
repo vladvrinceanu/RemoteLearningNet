@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="iQuest.VendingMachine.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="iQuest.VendingMachine.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
