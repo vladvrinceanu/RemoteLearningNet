@@ -27,7 +27,7 @@ namespace iQuest.HotelQueries
         /// </summary>
         public IEnumerable<Customer> FindCustomerByName(string text)
         {
-            return Customers.Where(x => x.FullName.IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0);
+            return Customers.Where(x => x.FullName.Contains(text, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -44,9 +44,8 @@ namespace iQuest.HotelQueries
         public IEnumerable<Customer> FindWomen(DateTime startTime, DateTime endTime)
         {
             return Customers
-                .Where(x => x.LastAccommodation >= startTime && x.LastAccommodation <= endTime)
                 .OfType<PersonCustomer>()
-                .Where(x => x.Gender == PersonGender.Female);
+                .Where(x => x.Gender == PersonGender.Female && x.LastAccommodation >= startTime && x.LastAccommodation <= endTime);
         }
 
         /// <summary>
@@ -100,19 +99,11 @@ namespace iQuest.HotelQueries
         /// </summary>
         public List<KeyValuePair<int, Customer[]>> GetCustomersGroupedByYear()
         {
-            var x = Reservations
-                .GroupBy(x => x.Customer)
-                .Select(x => new
-                {
-                    Customer = x.Key,
-                    LastAccomodation = x.Max(x => x.EndDate).Year
-                })
-                .OrderByDescending(x => x.LastAccomodation)
-                .GroupBy(x => x.LastAccomodation)
-                .ToDictionary(x => x.Key, x => x.OrderBy(x => x.Customer.FullName))
-                .Select(x => new KeyValuePair<int, Customer[]>(x.Key, x.Value.Select(x => x.Customer).ToArray()))
+            return Customers
+                .GroupBy(x => x.LastAccommodation.Year)
+                .OrderByDescending(x => x.Key)
+                .Select(x => new KeyValuePair<int, Customer[]>(x.Key, x.OrderBy(z => z.FullName).ToArray()))
                 .ToList();
-            return x;
         }
         /// <summary>
         /// 10) Calculate the average number of reservation per month.
@@ -120,10 +111,9 @@ namespace iQuest.HotelQueries
         /// </summary>
         public double CalculateAverageReservationsPerMonth()
         {
-            var x = Reservations
-                .GroupBy(x => new {x.StartDate,x.EndDate})
-                .Select(x => x.Count());
-            return x.Average();
+            return Reservations
+                .GroupBy(x => x.StartDate.Month)
+                .Average(x => x.Count());
         }
 
         /// <summary>
@@ -133,14 +123,16 @@ namespace iQuest.HotelQueries
         /// </summary>
         public IDictionary<Reservation, List<Reservation>> GetConflictingReservations()
         {
-           var conflict = new Dictionary<Reservation, List<Reservation>>();
-            
-            foreach(var reservation in Reservations)
-            {
-                var conflicts = Reservations.Where(x => reservation.ConflictsWith(x)).ToList();
-                conflict.Add(reservation, conflicts);
-            }
-            return conflict;
+           return Reservations
+                .Select(x => new
+                {
+                    Reservation = x,
+                    Conflicts = Reservations
+                    .Where(x.ConflictsWith)
+                    .ToList()
+                })
+                .Where(x => x.Conflicts.Count!=0)
+                .ToDictionary(x => x.Reservation, x => x.Conflicts);
         }
 
         /// <summary>
@@ -153,7 +145,20 @@ namespace iQuest.HotelQueries
         /// </summary>
         public Room FindNewFreeRoomFor(Reservation reservation)
         {
-            throw new NotImplementedException();
+            var conflict = Reservations
+                .Where(x =>
+                       x.StartDate < reservation.EndDate &&
+                       x.EndDate < reservation.StartDate)
+                .Select(x => x.Room.Number)
+                .Distinct();
+
+            return Rooms
+                .Where(x => x.MaxPersonCount >= reservation.NoOfPersons &&
+                       x.HasAirConditioner == reservation.Room.HasAirConditioner &&
+                       x.IsDisabledFriendly == reservation.Room.IsDisabledFriendly &&
+                       x.HasBalcony == reservation.Room.HasBalcony &&
+                       !conflict.Contains(x.Number)
+                ).FirstOrDefault();
         }
     }
 }
