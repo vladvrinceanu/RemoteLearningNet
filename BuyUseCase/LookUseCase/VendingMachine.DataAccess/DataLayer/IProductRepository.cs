@@ -6,5 +6,7 @@ namespace iQuest.VendingMachine.DataLayer
     {
         IEnumerable<Product> GetAll();
         Product GetByColumn(int columnId);
+        void AddProduct(Product product);
+        void DeleteProduct(string name);
     }
 }

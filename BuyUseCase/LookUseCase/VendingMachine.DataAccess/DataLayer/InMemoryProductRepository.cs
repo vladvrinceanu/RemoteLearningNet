@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace iQuest.VendingMachine.DataLayer
 {
-    internal class ProductRepository : IProductRepository
+    internal class InMemoryProductRepository : IProductRepository
     {
         private static List<Product> products = new List<Product>
         {
@@ -11,6 +11,15 @@ namespace iQuest.VendingMachine.DataLayer
             new Product { ColumnId = 2, Name = "Cana", Price = 15, Quantity = 5},
             new Product { ColumnId = 3, Name = "Pix", Price = 5, Quantity = 20}
         };
+
+        public void AddProduct(Product product)
+        {
+            products.Add(product);
+        }
+        public void DeleteProduct(string name)
+        {
+            products.RemoveAll(x => x.Name == name);
+        }
         public IEnumerable<Product> GetAll()
         {
             return products;
@@ -19,5 +28,6 @@ namespace iQuest.VendingMachine.DataLayer
         {
             return products.FirstOrDefault(x => x.ColumnId == columnId);
         }
+        
     }
 }
